@@ -37,22 +37,10 @@ def try_execute(cursor: sqlite3.Cursor, sql: str, parameters: Iterable = ...):
 
 
 def check_word(word: str):
-    def check_rus(word):
-        for c in word:
-            if not (('а' <= c <= 'я') or c == '-' or c == 'ё'):
-                return False
-        return True
-
-    def check_en(word):
-        for c in word:
-            if not (('a' <= c <= 'z') or c == '-'):
-                return False
-        return True
-
     if not len(word):
         return False
 
-    return check_rus(word) or check_en(word)
+    return all(c.isalpha() or c == '-' for c in word)
 
 
 def get_local_cursor(data, db_file):
